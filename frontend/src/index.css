@@ -69,4 +69,21 @@
       max-width: 1140px;
     }
   }
+
+  /* Form Styles */
+  .form-group {
+    @apply mb-4;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-paper-text mb-1;
+  }
+
+  .form-control {
+    @apply block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-paper-primary focus:border-paper-primary sm:text-sm;
+  }
+
+  .form-control-icon {
+    @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
+  }
 }

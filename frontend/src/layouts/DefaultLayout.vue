@@ -53,8 +53,8 @@
           <ProfileDropdown />
         </div>
       </header>
-      <main class="flex-1 p-6 md:p-10">
-        <div class="container">
+      <main class="flex-1">
+        <div class="container py-6 md:py-10">
           <router-view />
         </div>
       </main>
