@@ -1,5 +1,5 @@
 Prontuário,Nome,Nome Social,CPF,Data Nasc.,Sexo,Cor,Nome Mãe,Nome Pai,Data/Hora Início,Data/Hora Fim,Status Consulta,Local/Consultório,Sala,Médico/Profissional,Especialidade,Procedimento,N° Consulta
 77001,CARLA DIAS (CSV),(null),111.111.111-11,1985-03-10,F,BRANCA,SANDRA DIAS,ROBERTO DIAS,2025-11-25 09:00,2025-11-25 09:30,PACIENTE AGENDADO,Ambulatório de Clínica Médica,101,Dr. João Mendes,Clínica Médica,(null),960001
-77002,BRUNO LIMA (CSV),(null),222.222.222-22,1991-07-22,M,PARDA,FATIMA LIMA,JORGE LIMA,2025-11-25 10:30,2025-11-25 11:00,PACIENTE AGENDADO,Ambulatório de Ortopedia,205,Dra. Ana Gomes,Ortopedia,(null),960002
+77002,BRUNO LIMA (CSV),(null),(null),1991-07-22,M,PARDA,FATIMA LIMA,JORGE LIMA,2025-11-25 10:30,2025-11-25 11:00,PACIENTE AGENDADO,Ambulatório de Ortopedia,205,Dra. Ana Gomes,Ortopedia,(null),960002
 77003,FERNANDA COSTA (CSV),Nanda Costa,333.333.333-33,2001-11-01,F,BRANCA,VERA COSTA,MARCOS COSTA,2025-11-25 14:00,2025-11-25 14:30,PACIENTE AGENDADO,Ambulatório de Dermatologia,302,Dr. Ricardo Alves,Dermatologia,Biópsia de pele,960003
 77004,LUCAS ALMEIDA (CSV),(null),444.444.444-44,1988-02-18,M,PRETA,REGINA ALMEIDA,ANTONIO ALMEIDA,2025-11-26 08:00,2025-11-26 08:30,PACIENTE AGENDADO,Ambulatório de Cardiologia,102,Dra. Beatriz Costa,Cardiologia,Eletrocardiograma,960004
