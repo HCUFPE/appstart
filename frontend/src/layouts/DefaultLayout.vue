@@ -10,24 +10,15 @@
               <h1 class="text-xl font-semibold text-slate-900">{{ headerTitle }}</h1>
             </div>
             <div class="flex items-center gap-3">
-              <button
-                class="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50"
-              >
-                <BellIcon class="h-5 w-5" />
-                <span
-                  class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow"
-                >
-                  3
-                </span>
-              </button>
+              <NotificationsPopover />
+              <ProfileDropdown v-if="authStore.isAuthenticated" />
               <router-link
-                v-if="!authStore.isAuthenticated"
+                v-else
                 to="/login"
                 class="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
               >
                 Login
               </router-link>
-              <ProfileDropdown v-else />
             </div>
           </div>
         </header>
@@ -43,9 +34,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { BellIcon } from '@heroicons/vue/24/outline';
 import SidebarNav from '../components/SidebarNav.vue';
 import ProfileDropdown from '../components/ProfileDropdown.vue';
+import NotificationsPopover from '../components/NotificationsPopover.vue';
 import { useAuthStore } from '../stores/auth';
 
 const route = useRoute();

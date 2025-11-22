@@ -83,14 +83,20 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _from, next: NavigationGuardNext) => {
-  // Pinia store must be used inside a function to ensure it's initialized
   const authStore = useAuthStore();
+  const isLoginRoute = to.name === 'Login';
 
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next({ name: 'Login' });
-  } else {
-    next();
+  if (!authStore.isAuthenticated && !isLoginRoute) {
+    next({ name: 'Login', query: { redirect: to.fullPath } });
+    return;
   }
+
+  if (authStore.isAuthenticated && isLoginRoute) {
+    next({ name: 'Leitos' });
+    return;
+  }
+
+  next();
 });
 
 export default router;
