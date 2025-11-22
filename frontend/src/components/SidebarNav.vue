@@ -65,10 +65,14 @@ const activeItems = [
     to: '/solicitacoes',
     icon: InboxStackIcon,
   },
+  {
+    label: 'Altas',
+    to: '/altas',
+    icon: ArrowTrendingUpIcon,
+  },
 ];
 
 const disabledItems = [
-  { label: 'Altas', icon: ArrowTrendingUpIcon },
   { label: 'Alertas', icon: BellAlertIcon },
   { label: 'Indicadores', icon: ChartBarSquareIcon },
   { label: 'Historico', icon: ClockIcon },

@@ -3,7 +3,6 @@
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div class="space-y-1">
         <h2 class="text-3xl font-bold text-slate-900">Solicitacoes de Vaga</h2>
-        <p class="text-sm text-slate-600">Acompanhe pedidos pendentes e reservas de leitos.</p>
       </div>
       <div class="flex flex-wrap gap-3">
         <UiButton variant="outline" size="sm" class="shadow-sm">
