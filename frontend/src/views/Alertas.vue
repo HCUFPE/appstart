@@ -3,21 +3,21 @@
     <div class="flex flex-wrap items-center justify-between gap-3">
       <h2 class="text-3xl font-bold text-slate-900">Alertas do Sistema</h2>
       <div class="flex flex-wrap gap-2">
-        <UiButton variant="outline" size="sm">
-          Criticos
-        </UiButton>
-        <UiButton variant="outline" size="sm">
-          Avisos
-        </UiButton>
-        <UiButton variant="outline" size="sm">
-          Informacoes
+        <UiButton
+          v-for="filtro in filtros"
+          :key="filtro.value"
+          :variant="filtroTipo === filtro.value ? 'default' : 'outline'"
+          size="sm"
+          @click="toggleFiltro(filtro.value)"
+        >
+          {{ filtro.label }}
         </UiButton>
       </div>
     </div>
 
     <div class="space-y-3">
       <article
-        v-for="alerta in alertas"
+        v-for="alerta in alertasFiltrados"
         :key="alerta.id"
         class="rounded-xl border shadow-sm transition cursor-pointer"
         :class="[
@@ -135,7 +135,7 @@
         </p>
       </div>
       <template #footer>
-        <UiButton variant="outline" @click="closeModal">Nao agora</UiButton>
+        <UiButton variant="outline" @click="closeModal">Não agora</UiButton>
         <UiButton @click="toggleRead">{{ primaryActionLabel }}</UiButton>
       </template>
     </Modal>
@@ -156,6 +156,7 @@ import { computed, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 
 type AlertType = 'critico' | 'aviso' | 'info';
+type AlertFilter = AlertType | 'todos';
 
 type Alert = {
   id: string;
@@ -207,6 +208,7 @@ const alertas = ref<Alert[]>([
 const toast = useToast();
 const showModal = ref(false);
 const selectedAlert = ref<Alert | null>(null);
+const filtroTipo = ref<AlertFilter>('todos');
 
 const alertConfig: Record<
   AlertType,
@@ -247,6 +249,12 @@ const alertConfig: Record<
 
 const formatTipo = (tipo: AlertType) => tipo.charAt(0).toUpperCase() + tipo.slice(1);
 
+const filtros = [
+  { label: 'Criticos', value: 'critico' },
+  { label: 'Avisos', value: 'aviso' },
+  { label: 'Informacoes', value: 'info' },
+] as const;
+
 const openModal = (alerta: Alert) => {
   selectedAlert.value = alerta;
   showModal.value = true;
@@ -260,6 +268,15 @@ const closeModal = () => {
 const modalTitle = computed(() =>
   selectedAlert.value?.lido ? 'Marcar alerta como não lido?' : 'Marcar pendência como lida/resolvida?'
 );
+
+const alertasFiltrados = computed(() => {
+  if (filtroTipo.value === 'todos') return alertas.value;
+  return alertas.value.filter(alerta => alerta.tipo === filtroTipo.value);
+});
+
+const toggleFiltro = (valor: AlertFilter) => {
+  filtroTipo.value = filtroTipo.value === valor ? 'todos' : valor;
+};
 
 const primaryActionLabel = computed(() =>
   selectedAlert.value?.lido ? 'Marcar como não lida' : 'Sim, marcar como lida'

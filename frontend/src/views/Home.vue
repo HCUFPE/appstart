@@ -20,15 +20,24 @@
       <div>
         <h2 class="text-3xl font-bold text-slate-900">Visao Geral dos Leitos</h2>
       </div>
-      <UiButton variant="outline" size="sm" class="shadow-sm">
-        <FunnelIcon class="h-5 w-5 text-slate-500" />
-        Filtrar
-      </UiButton>
+      <div class="flex flex-wrap items-center gap-2">
+        <UiButton
+          v-for="option in statusFilterOptions"
+          :key="option.value"
+          :variant="statusFilter === option.value ? 'default' : 'outline'"
+          size="sm"
+          class="shadow-sm"
+          @click="setStatusFilter(option.value)"
+        >
+          <FunnelIcon v-if="option.value !== 'todos' && statusFilter === option.value" class="h-4 w-4" />
+          {{ option.label }}
+        </UiButton>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <BedCard
-        v-for="leito in mockLeitos"
+        v-for="leito in leitosFiltrados"
         :key="leito.leitoNumero"
         v-bind="leito"
         @solicitar-alta="handleSolicitarAlta(leito)"
@@ -41,12 +50,14 @@
 
 <script setup lang="ts">
 import { FunnelIcon } from '@heroicons/vue/24/outline';
+import { computed, ref } from 'vue';
 import BedCard from '../components/BedCard.vue';
 import UiButton from '../components/ui/Button.vue';
 import { useToast } from 'vue-toastification';
 
 type BedStatus = 'disponivel' | 'ocupado' | 'higienizacao' | 'desativado' | 'alta';
 type BedType = 'cirurgico' | 'hem' | 'obstetrico' | 'outro' | 'nao_definido';
+type StatusFilter = BedStatus | 'todos';
 
 type Patient = {
   prontuario: string;
@@ -64,7 +75,7 @@ type Leito = {
   sinalizacaoTransferencia?: boolean;
 };
 
-const mockLeitos: Leito[] = [
+const leitos = ref<Leito[]>([
   {
     leitoNumero: '01',
     status: 'ocupado',
@@ -160,7 +171,7 @@ const mockLeitos: Leito[] = [
     },
     tipoReserva: 'Emergencia',
   },
-];
+]);
 
 const overviewCards = [
   { title: 'Taxa de Ocupacao Global', value: '66%', color: 'text-emerald-600', caption: '10 de 15 leitos ocupados' },
@@ -172,6 +183,26 @@ const overviewCards = [
 ];
 
 const toast = useToast();
+
+const statusFilterOptions: { label: string; value: StatusFilter }[] = [
+  { label: 'Todos', value: 'todos' },
+  { label: 'Disponiveis', value: 'disponivel' },
+  { label: 'Ocupados', value: 'ocupado' },
+  { label: 'Higienizacao', value: 'higienizacao' },
+  { label: 'Desativados', value: 'desativado' },
+  { label: 'Alta', value: 'alta' },
+];
+
+const statusFilter = ref<StatusFilter>('todos');
+
+const leitosFiltrados = computed(() => {
+  if (statusFilter.value === 'todos') return leitos.value;
+  return leitos.value.filter(leito => leito.status === statusFilter.value);
+});
+
+const setStatusFilter = (valor: StatusFilter) => {
+  statusFilter.value = statusFilter.value === valor ? 'todos' : valor;
+};
 
 const handleSolicitarAlta = (leito: Leito) => {
   toast.info(`Alta solicitada para o leito ${leito.leitoNumero}.`);

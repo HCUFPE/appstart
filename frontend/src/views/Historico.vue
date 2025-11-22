@@ -10,19 +10,21 @@
           <div class="relative flex-1 min-w-60">
             <MagnifyingGlassIcon class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
+              v-model="busca"
               type="text"
               placeholder="Buscar por prontuario, operador ou acao..."
               class="w-full rounded-md border border-slate-200 bg-white px-10 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              @keyup.enter="onSearch"
             />
           </div>
-          <UiButton class="h-10">Buscar</UiButton>
+          <UiButton class="h-10" @click="onSearch">Buscar</UiButton>
         </div>
       </div>
     </article>
 
     <div class="space-y-3">
       <article
-        v-for="item in historico"
+        v-for="item in historicoFiltrado"
         :key="item.id"
         class="rounded-xl border border-slate-200 bg-white shadow-sm"
       >
@@ -56,6 +58,7 @@
 
 <script setup lang="ts">
 import { MagnifyingGlassIcon, UserIcon, ClockIcon } from '@heroicons/vue/24/outline';
+import { computed, ref } from 'vue';
 import UiBadge from '../components/ui/Badge.vue';
 import UiButton from '../components/ui/Button.vue';
 
@@ -68,7 +71,7 @@ type HistoricoItem = {
   tipo: keyof typeof tipoConfig;
 };
 
-const historico: HistoricoItem[] = [
+const historico = ref<HistoricoItem[]>([
   {
     id: '1',
     operador: 'Dr. Silva',
@@ -117,7 +120,7 @@ const historico: HistoricoItem[] = [
     dataHora: '2025-11-18 12:30',
     tipo: 'status',
   },
-];
+]);
 
 const tipoConfig: Record<
   string,
@@ -132,5 +135,25 @@ const tipoConfig: Record<
   cancelamento: { color: 'border border-red-200 bg-red-100 text-red-800', label: 'Cancelamento' },
   solicitacao: { color: 'border border-amber-200 bg-amber-100 text-amber-800', label: 'Solicitacao' },
   status: { color: 'border border-slate-200 bg-slate-100 text-slate-700', label: 'Status' },
+};
+
+const busca = ref('');
+
+const historicoFiltrado = computed(() => {
+  const termo = busca.value.trim().toLowerCase();
+  if (!termo) return historico.value;
+
+  return historico.value.filter(item => {
+    return (
+      item.operador.toLowerCase().includes(termo) ||
+      item.acao.toLowerCase().includes(termo) ||
+      item.detalhes.toLowerCase().includes(termo) ||
+      item.dataHora.toLowerCase().includes(termo)
+    );
+  });
+});
+
+const onSearch = () => {
+  busca.value = busca.value.trimStart();
 };
 </script>

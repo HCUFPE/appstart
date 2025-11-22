@@ -1,6 +1,6 @@
 <template>
   <article
-    class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+    class="relative rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
     :class="sinalizacaoTransferencia ? 'ring-2 ring-red-300' : ''"
   >
     <div
