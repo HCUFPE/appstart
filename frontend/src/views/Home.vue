@@ -31,6 +31,9 @@
         v-for="leito in mockLeitos"
         :key="leito.leitoNumero"
         v-bind="leito"
+        @solicitar-alta="handleSolicitarAlta(leito)"
+        @cancelar-alta="handleCancelarAlta(leito)"
+        @cancelar-reserva="handleCancelarReserva(leito)"
       />
     </div>
   </section>
@@ -40,6 +43,7 @@
 import { FunnelIcon } from '@heroicons/vue/24/outline';
 import BedCard from '../components/BedCard.vue';
 import UiButton from '../components/ui/Button.vue';
+import { useToast } from 'vue-toastification';
 
 type BedStatus = 'disponivel' | 'ocupado' | 'higienizacao' | 'desativado' | 'alta';
 type BedType = 'cirurgico' | 'hem' | 'obstetrico' | 'outro' | 'nao_definido';
@@ -166,4 +170,18 @@ const overviewCards = [
   { title: 'Leitos Desativados', value: '0', color: 'text-emerald-600' },
   { title: 'Reservas Pendentes', value: '7', color: 'text-emerald-600' },
 ];
+
+const toast = useToast();
+
+const handleSolicitarAlta = (leito: Leito) => {
+  toast.info(`Alta solicitada para o leito ${leito.leitoNumero}.`);
+};
+
+const handleCancelarAlta = (leito: Leito) => {
+  toast.warning(`Alta cancelada para o leito ${leito.leitoNumero}.`);
+};
+
+const handleCancelarReserva = (leito: Leito) => {
+  toast.error(`Reserva cancelada para o leito ${leito.leitoNumero}.`);
+};
 </script>

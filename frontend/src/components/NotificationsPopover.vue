@@ -63,7 +63,7 @@
           <button
             type="button"
             class="w-full rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-blue-50 hover:text-blue-700"
-            @click="close"
+            @click="goToAlerts"
           >
             Ver todas as notificacoes
           </button>
@@ -75,6 +75,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
 import {
   ArrowLeftOnRectangleIcon,
   BellIcon,
@@ -149,6 +150,7 @@ const typeConfig: Record<
 const open = ref(false);
 const trigger = ref<HTMLElement | null>(null);
 const panel = ref<HTMLElement | null>(null);
+const router = useRouter();
 
 const unreadCount = computed(() => notifications.value.filter(n => n.unread).length);
 
@@ -158,6 +160,11 @@ const toggle = () => {
 
 const close = () => {
   open.value = false;
+};
+
+const goToAlerts = () => {
+  close();
+  router.push('/alertas');
 };
 
 const handleClickOutside = (event: MouseEvent) => {

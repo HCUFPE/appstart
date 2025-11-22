@@ -124,6 +124,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import Button from '../components/Button.vue';
 import { EyeIcon, EyeSlashIcon, XCircleIcon } from '@heroicons/vue/24/outline';
+import { useToast } from 'vue-toastification';
 
 const username = ref('');
 const password = ref('');
@@ -135,6 +136,7 @@ const primaryButtonStyle = computed(() => ({
   backgroundColor: '#2563eb',
   borderColor: '#2563eb',
 }));
+const toast = useToast();
 
 const router = useRouter();
 const route = useRoute();
@@ -158,6 +160,7 @@ const handleLogin = async () => {
   error.value = '';
   try {
     await authStore.login(username.value, password.value, rememberMe.value);
+    toast.success('Login realizado com sucesso!');
     const redirectPath = (route.query.redirect as string) || '/';
     await router.push(redirectPath);
   } catch (e: any) {
