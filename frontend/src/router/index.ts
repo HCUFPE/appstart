@@ -9,6 +9,8 @@ import Pacientes from '../views/Pacientes.vue';
 import Solicitacoes from '../views/Solicitacoes.vue';
 import Altas from '../views/Altas.vue';
 import Alertas from '../views/Alertas.vue';
+import Indicadores from '../views/Indicadores.vue';
+import Historico from '../views/Historico.vue';
 
 const routes = [
   {
@@ -58,6 +60,18 @@ const routes = [
     name: 'Alertas',
     component: Alertas,
     meta: { title: 'Alertas do Sistema' },
+  },
+  {
+    path: '/indicadores',
+    name: 'Indicadores',
+    component: Indicadores,
+    meta: { title: 'Indicadores Operacionais' },
+  },
+  {
+    path: '/historico',
+    name: 'Historico',
+    component: Historico,
+    meta: { title: 'Historico de Acoes' },
   },
 ];
 

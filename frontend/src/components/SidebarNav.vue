@@ -61,12 +61,12 @@ const activeItems = [
     icon: Squares2X2Icon,
   },
   {
-    label: 'Solicitacoes',
+    label: 'Solicitações de leito',
     to: '/solicitacoes',
     icon: InboxStackIcon,
   },
   {
-    label: 'Altas',
+    label: 'Solicitações de alta',
     to: '/altas',
     icon: ArrowTrendingUpIcon,
   },
@@ -75,12 +75,19 @@ const activeItems = [
     to: '/alertas',
     icon: BellAlertIcon,
   },
+  {
+    label: 'Indicadores',
+    to: '/indicadores',
+    icon: ChartBarSquareIcon,
+  },
+  {
+    label: 'Historico',
+    to: '/historico',
+    icon: ClockIcon,
+  },
 ];
 
-const disabledItems = [
-  { label: 'Indicadores', icon: ChartBarSquareIcon },
-  { label: 'Historico', icon: ClockIcon },
-];
+const disabledItems: Array<{ label: string; icon: any }> = [];
 </script>
 
 <style scoped>
