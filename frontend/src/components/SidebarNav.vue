@@ -11,12 +11,14 @@
 
     <nav class="flex-1 space-y-1 px-3 py-4">
       <RouterLink
-        :to="mainItem.to"
+        v-for="item in activeItems"
+        :key="item.to"
+        :to="item.to"
         class="group flex items-center gap-3 rounded-lg px-4 py-3 font-semibold transition"
-        :class="isActive(mainItem.to) ? 'sidebar-active' : 'text-slate-700 hover:bg-white hover:text-slate-900'"
+        :class="isActive(item.to) ? 'sidebar-active' : 'text-slate-700 hover:bg-white hover:text-slate-900'"
       >
-        <component :is="mainItem.icon" class="h-5 w-5" />
-        <span>{{ mainItem.label }}</span>
+        <component :is="item.icon" class="h-5 w-5" />
+        <span>{{ item.label }}</span>
       </RouterLink>
 
       <div
@@ -52,18 +54,24 @@ import {
 const route = useRoute();
 const isActive = (path: string) => route.path === path;
 
-const mainItem = {
-  label: 'Leitos',
-  to: '/',
-  icon: Squares2X2Icon,
-};
+const activeItems = [
+  {
+    label: 'Leitos',
+    to: '/',
+    icon: Squares2X2Icon,
+  },
+  {
+    label: 'Solicitacoes',
+    to: '/solicitacoes',
+    icon: InboxStackIcon,
+  },
+];
 
 const disabledItems = [
-  { label: 'Solicitações', icon: InboxStackIcon },
   { label: 'Altas', icon: ArrowTrendingUpIcon },
   { label: 'Alertas', icon: BellAlertIcon },
   { label: 'Indicadores', icon: ChartBarSquareIcon },
-  { label: 'Histórico', icon: ClockIcon },
+  { label: 'Historico', icon: ClockIcon },
 ];
 </script>
 
