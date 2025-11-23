@@ -21,16 +21,38 @@
         <h2 class="text-3xl font-bold text-slate-900">Visao Geral dos Leitos</h2>
       </div>
       <div class="flex flex-wrap items-center gap-2">
+        <TransitionGroup
+          name="fade-scale"
+          tag="div"
+          class="flex flex-wrap items-center gap-2"
+        >
+          <button
+            v-for="option in statusFilterOptions"
+            v-if="filtrosAbertos"
+            :key="option.value"
+            class="flex items-center gap-2 rounded-lg border px-3 py-1 text-sm font-medium transition"
+            :class="
+              statusFilter === option.value
+                ? 'border-blue-200 bg-blue-50 text-blue-700 shadow-sm'
+                : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+            "
+            @click="setStatusFilter(option.value)"
+          >
+            <span class="h-2 w-2 rounded-full" :class="dotColor(option.value)" />
+            {{ option.label }}
+          </button>
+        </TransitionGroup>
         <UiButton
-          v-for="option in statusFilterOptions"
-          :key="option.value"
-          :variant="statusFilter === option.value ? 'default' : 'outline'"
+          variant="outline"
           size="sm"
           class="shadow-sm"
-          @click="setStatusFilter(option.value)"
+          @click="toggleFiltros"
         >
-          <FunnelIcon v-if="option.value !== 'todos' && statusFilter === option.value" class="h-4 w-4" />
-          {{ option.label }}
+          <FunnelIcon class="h-5 w-5 text-slate-600" />
+          <ChevronRightIcon
+            class="h-4 w-4 text-slate-500 transition-transform duration-200"
+            :class="filtrosAbertos ? 'rotate-180' : ''"
+          />
         </UiButton>
       </div>
     </div>
@@ -51,6 +73,7 @@
 <script setup lang="ts">
 import { FunnelIcon } from '@heroicons/vue/24/outline';
 import { computed, ref } from 'vue';
+import { ChevronRightIcon } from '@heroicons/vue/20/solid';
 import BedCard from '../components/BedCard.vue';
 import UiButton from '../components/ui/Button.vue';
 import { useToast } from 'vue-toastification';
@@ -194,6 +217,7 @@ const statusFilterOptions: { label: string; value: StatusFilter }[] = [
 ];
 
 const statusFilter = ref<StatusFilter>('todos');
+const filtrosAbertos = ref(false);
 
 const leitosFiltrados = computed(() => {
   if (statusFilter.value === 'todos') return leitos.value;
@@ -202,6 +226,27 @@ const leitosFiltrados = computed(() => {
 
 const setStatusFilter = (valor: StatusFilter) => {
   statusFilter.value = statusFilter.value === valor ? 'todos' : valor;
+};
+
+const toggleFiltros = () => {
+  filtrosAbertos.value = !filtrosAbertos.value;
+};
+
+const dotColor = (valor: StatusFilter) => {
+  switch (valor) {
+    case 'disponivel':
+      return 'bg-emerald-500';
+    case 'ocupado':
+      return 'bg-amber-500';
+    case 'higienizacao':
+      return 'bg-blue-500';
+    case 'desativado':
+      return 'bg-slate-400';
+    case 'alta':
+      return 'bg-fuchsia-500';
+    default:
+      return 'bg-slate-300';
+  }
 };
 
 const handleSolicitarAlta = (leito: Leito) => {
@@ -216,3 +261,15 @@ const handleCancelarReserva = (leito: Leito) => {
   toast.error(`Reserva cancelada para o leito ${leito.leitoNumero}.`);
 };
 </script>
+
+<style scoped>
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: all 0.18s ease;
+}
+.fade-scale-enter-from,
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+}
+</style>
